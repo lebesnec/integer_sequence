@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
-// declare var require: any;
-// const Boost = require('highcharts/modules/boost');
-// const noData = require('highcharts/modules/no-data-to-display');
-// const More = require('highcharts/highcharts-more');
-
-// Boost(Highcharts);
-// noData(Highcharts);
-// More(Highcharts);
-// noData(Highcharts);
-
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -18,7 +8,7 @@ import * as Highcharts from 'highcharts';
 })
 export class ChartComponent implements OnInit {
 
-  Highcharts: typeof Highcharts = Highcharts; // required
+  Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {
     series: [{
       data: [1, 2, 3],
