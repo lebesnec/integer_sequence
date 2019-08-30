@@ -11,11 +11,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ShellComponent
+    ShellComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,8 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
