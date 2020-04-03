@@ -30,6 +30,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     name: "App",
     components: { },
@@ -44,17 +46,19 @@
       search(val) {
         this.isLoading = true;
 
-        fetch(`https://oeis.org/search?q=${val}&fmt=json`, { method: "HEAD", mode: "no-cors" })
-        .then((res) => {
-          console.log(res);
-          this.items = res.json().data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.isLoading = false
-        });
+      axios.get(`https://oeis.org/search?q=${val}&fmt=json`).then(response => {console.log(val, response);});
+
+        // fetch(`https://oeis.org/search?q=${val}&fmt=json`, { method: "HEAD", mode: "no-cors" })
+        // .then((res) => {
+        //   console.log(res);
+        //   this.items = res.json().data;
+        // })
+        // .catch((err) => {
+        //   console.log(err);
+        // })
+        // .finally(() => {
+        //   this.isLoading = false
+        // });
       }
     }
   };
