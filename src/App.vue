@@ -30,8 +30,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
   export default {
     name: "App",
     components: { },
@@ -46,19 +44,20 @@
       search(val) {
         this.isLoading = true;
 
-      axios.get(`https://oeis.org/search?q=${val}&fmt=json`).then(response => {console.log(val, response);});
+        // CORS are not supported by the API at oeis.org, so we use cors-anywhere.herokuapp.com as a reverse proxy :
+        const myRequest = new Request(`https://cors-anywhere.herokuapp.com/https://oeis.org/search?q=${val}&fmt=json`, {
+          method: 'GET'
+        });
 
-        // fetch(`https://oeis.org/search?q=${val}&fmt=json`, { method: "HEAD", mode: "no-cors" })
-        // .then((res) => {
-        //   console.log(res);
-        //   this.items = res.json().data;
-        // })
-        // .catch((err) => {
-        //   console.log(err);
-        // })
-        // .finally(() => {
-        //   this.isLoading = false
-        // });
+        fetch(myRequest)
+          .then(response => response.json())
+          .then((response) => {
+            this.items = response.results;
+          }).catch((e) => {
+            console.error(e);
+          }).finally(() => {
+            this.isLoading = false;
+          });
       }
     }
   };
