@@ -68,7 +68,8 @@
           this.timerId = setTimeout(() => {
 console.log(val);
             // CORS are not supported by the API at oeis.org, so we use cors-anywhere.herokuapp.com as a reverse proxy :
-            const myRequest = new Request(`https://cors-anywhere.herokuapp.com/https://oeis.org/search?q=${val}&fmt=json`, {
+            const url = 'https://oeis.org/search?q=' + encodeURI(val) + '&fmt=json';
+            const myRequest = new Request('https://cors-anywhere.herokuapp.com/' + encodeURI(url), {
               method: 'GET'
             });
             fetch(myRequest)
