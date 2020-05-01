@@ -11,12 +11,11 @@
         <span >Integer sequence</span>
       </v-toolbar-title>
       <v-autocomplete
-        multiple
         v-model="select"
         :items="items"
         :loading="loading"
         :search-input.sync="search"
-        item-text="number"
+        item-text="label"
         item-value="number"
         label="Search"
         placeholder="Start typing to Search"
@@ -26,11 +25,9 @@
         autofocus
         :filter="() => true"
         flat
-        hide-no-data
+        full-width
         solo
-        clearable
-        chips
-        deletable-chips>
+        clearables>
       </v-autocomplete>
 
       <v-spacer class="hidden-sm-and-down"/>
@@ -69,7 +66,7 @@
 
           // delay new call 300ms
           this.timerId = setTimeout(() => {
-
+console.log(val);
             // CORS are not supported by the API at oeis.org, so we use cors-anywhere.herokuapp.com as a reverse proxy :
             const myRequest = new Request(`https://cors-anywhere.herokuapp.com/https://oeis.org/search?q=${val}&fmt=json`, {
               method: 'GET'
@@ -78,8 +75,12 @@
               .then(response => response.json())
               .then((response) => {
                 if (response.results) {
-                  this.items = response.results;
-                  console.log(this.items);
+                  this.items = response.results.map((item) => {
+                    item.label = '#' + item.number;
+                    return item;
+                  });
+                } else {
+                  this.items = [];
                 }
               }).catch((e) => {
                 console.error(e);
