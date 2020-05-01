@@ -10,7 +10,7 @@
       <v-toolbar-title class="ml-0 pl-4 pr-4 hidden-sm-and-down">
         <span >Integer sequence</span>
       </v-toolbar-title>
-      <v-autocomplete 
+      <v-autocomplete
         multiple
         v-model="select"
         :items="items"
@@ -22,8 +22,10 @@
         placeholder="Start typing to Search"
         prepend-inner-icon="mdi-magnify"
         return-object
-        hide-details 
-        flat 
+        hide-details
+        autofocus
+        :filter="() => true"
+        flat
         hide-no-data
         solo
         clearable
@@ -62,28 +64,31 @@
         // cancel pending call
         clearTimeout(this.timerId);
 
-        this.loading = true;
+        if (val && val.trim().length > 1) {
+          this.loading = true;
 
-        // delay new call 300ms
-        this.timerId = setTimeout(() => {
+          // delay new call 300ms
+          this.timerId = setTimeout(() => {
 
-          // CORS are not supported by the API at oeis.org, so we use cors-anywhere.herokuapp.com as a reverse proxy :
-          const myRequest = new Request(`https://cors-anywhere.herokuapp.com/https://oeis.org/search?q=${val}&fmt=json`, {
-            method: 'GET'
-          });
-          fetch(myRequest)
-            .then(response => response.json())
-            .then((response) => {
-              if (response.results) {
-                this.items = response.results;
-              }
-            }).catch((e) => {
-              console.error(e);
-            }).finally(() => {
-              this.loading = false;
+            // CORS are not supported by the API at oeis.org, so we use cors-anywhere.herokuapp.com as a reverse proxy :
+            const myRequest = new Request(`https://cors-anywhere.herokuapp.com/https://oeis.org/search?q=${val}&fmt=json`, {
+              method: 'GET'
             });
+            fetch(myRequest)
+              .then(response => response.json())
+              .then((response) => {
+                if (response.results) {
+                  this.items = response.results;
+                  console.log(this.items);
+                }
+              }).catch((e) => {
+                console.error(e);
+              }).finally(() => {
+                this.loading = false;
+              });
 
-        }, 500);        
+          }, 500);
+        }
       }
     }
   };
